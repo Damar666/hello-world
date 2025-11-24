@@ -1,33 +1,22 @@
 pipeline {
-    agent any
-
-    // Opsi untuk Pipeline, bisa dihilangkan jika tidak perlu
-    options {
-        skipDefaultCheckout(false) 
-    }
-
+    agent any 
     stages {
         stage('Checkout') {
             steps {
-                // Bersihkan workspace dari build sebelumnya (opsional)
-                cleanWs(deleteDirs: true) 
-                
-                // Melakukan checkout kode
-                // (Biasanya dilakukan secara otomatis oleh Git SCM, tapi kita definisikan untuk eksplisit)
-                checkout scm 
-                
                 echo "Kode sudah diambil dari repositori!"
-            }
-        }
-        stage('Verifikasi') {
-            steps {
-                // Perintah untuk menampilkan daftar file (hanya untuk log)
-                sh 'ls -l'
             }
         }
         stage('Deployment') {
             steps {
-                echo "Deployment Otomatis Berjalan..."
+                echo "Memulai Deployment ke folder target di C drive..."
+                
+                // Pastikan folder ini ADA di C: drive Anda
+                sh 'mkdir -p C:/JenkinsDeployTarget' 
+                
+                // Menyalin SEMUA file dari workspace (yang tidak ditampilkan) ke folder C: drive
+                sh 'cp -r * C:/JenkinsDeployTarget/' 
+                
+                echo "Deployment Selesai. Cek folder C:/JenkinsDeployTarget"
             }
         }
     }
