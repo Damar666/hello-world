@@ -1,16 +1,25 @@
 pipeline {
-    agent any 
+    agent any // PENTING: Mendefinisikan agent di level pipeline
     stages {
         stage('Checkout') {
             steps {
-                echo "Kode sudah diambil dari repositori Anda!"
+                // Jenkins otomatis checkout di agent any
+                echo "Kode sudah diambil dari repositori!"
             }
         }
-        stage('Build & Test') {
+        stage('Deployment') {
             steps {
-                // Di sini nanti Anda bisa menambahkan perintah build/test
-                echo "Testing webhook triggers."
+                echo "Memulai Deployment Otomatis..."
+                
+                // Perintah untuk melihat file di workspace
+                sh 'ls -l' 
+                
+                echo "Deployment Selesai."
             }
         }
+    }
+    // Opsi untuk memastikan workspace tetap ada
+    options {
+        skipDefaultCheckout true // Biasanya tidak perlu, tapi bisa membantu.
     }
 }
