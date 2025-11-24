@@ -9,7 +9,7 @@ pipeline {
         stage('Build & Test') {
             steps {
                 // Di sini nanti Anda bisa menambahkan perintah build/test
-                echo "Langkah Build dan Test diotomatisasi."
+                echo "Testing webhook triggers."
             }
         }
     }
