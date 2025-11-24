@@ -1,22 +1,33 @@
 pipeline {
-    agent any 
+    agent any
+
+    // Opsi untuk Pipeline, bisa dihilangkan jika tidak perlu
+    options {
+        skipDefaultCheckout(false) 
+    }
+
     stages {
         stage('Checkout') {
             steps {
+                // Bersihkan workspace dari build sebelumnya (opsional)
+                cleanWs(deleteDirs: true) 
+                
+                // Melakukan checkout kode
+                // (Biasanya dilakukan secara otomatis oleh Git SCM, tapi kita definisikan untuk eksplisit)
+                checkout scm 
+                
                 echo "Kode sudah diambil dari repositori!"
             }
         }
-        stage('Verifikasi Workspace') { // Stage Baru untuk Membuktikan File Ada
+        stage('Verifikasi') {
             steps {
-                echo "Memverifikasi isi workspace..."
-                sh 'ls -l' // Perintah untuk menampilkan daftar file (seperti di screenshot Anda)
-                echo "Verifikasi selesai."
+                // Perintah untuk menampilkan daftar file (hanya untuk log)
+                sh 'ls -l'
             }
         }
         stage('Deployment') {
             steps {
                 echo "Deployment Otomatis Berjalan..."
-                // Tambahkan perintah deploy sesungguhnya di sini
             }
         }
     }
