@@ -3,21 +3,27 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
+                // Hapus baris 'cleanWs()' jika ada
                 echo "Kode sudah diambil dari repositori!"
             }
         }
-        stage('Deployment') {
+        stage('Final Deployment') {
             steps {
-                echo "Memulai Deployment ke folder target di C drive..."
-                
-                // Pastikan folder ini ADA di C: drive Anda
+                echo "Penyalinan untuk bukti visual..."
                 sh 'mkdir -p C:/JenkinsDeployTarget' 
-                
-                // Menyalin SEMUA file dari workspace (yang tidak ditampilkan) ke folder C: drive
-                sh 'cp -r * C:/JenkinsDeployTarget/' 
-                
-                echo "Deployment Selesai. Cek folder C:/JenkinsDeployTarget"
+                sh 'cp -R * C:/JenkinsDeployTarget/' 
             }
+        }
+    }
+    // PENTING: TAMBAHKAN Bagian Pasca-Build INI
+    post {
+        failure {
+            // Hapus folder kerja jika terjadi kegagalan
+            deleteDir()
+        }
+        success {
+            // JANGAN lakukan apa-apa, biarkan workspace tetap ada
+            echo 'Workspace dipertahankan.'
         }
     }
 }
