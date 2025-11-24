@@ -1,25 +1,23 @@
 pipeline {
-    agent any // PENTING: Mendefinisikan agent di level pipeline
+    agent any 
     stages {
         stage('Checkout') {
             steps {
-                // Jenkins otomatis checkout di agent any
                 echo "Kode sudah diambil dari repositori!"
+            }
+        }
+        stage('Verifikasi Workspace') { // Stage Baru untuk Membuktikan File Ada
+            steps {
+                echo "Memverifikasi isi workspace..."
+                sh 'ls -l' // Perintah untuk menampilkan daftar file (seperti di screenshot Anda)
+                echo "Verifikasi selesai."
             }
         }
         stage('Deployment') {
             steps {
-                echo "Memulai Deployment Otomatis..."
-                
-                // Perintah untuk melihat file di workspace
-                sh 'ls -l' 
-                
-                echo "Deployment Selesai."
+                echo "Deployment Otomatis Berjalan..."
+                // Tambahkan perintah deploy sesungguhnya di sini
             }
         }
-    }
-    // Opsi untuk memastikan workspace tetap ada
-    options {
-        skipDefaultCheckout true // Biasanya tidak perlu, tapi bisa membantu.
     }
 }
